@@ -1,8 +1,8 @@
+import { CategoryService } from './../category/category.service';
 import { Component, OnInit } from '@angular/core';
 import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
-import { CategoryService } from '../category/category.service';
 import { ActivatedRoute } from '@angular/router';
 import { SumItem } from './budget-item.type';
 
@@ -16,36 +16,21 @@ export class SumComponent implements OnInit {
   categoryList: Category[] = [];
   categoryDefault: Category;
   sum = 0;
-  constructor(private activatedRoute: ActivatedRoute, private mathService: MathService) { }
+  constructor(private activatedRoute: ActivatedRoute, private mathService: MathService,
+  private categoryService:CategoryService) { }
 
   ngOnInit() {
-
     this.activatedRoute.data.subscribe((data) => {
       this.categoryList = data['categoryList'];
       this.itemList = data['budgetItemList'];
-
       //How do you want to handle the default category in the future
       //it should just not be simply the first one. In the future
       //should the user be able to define it. Don't over think this. stay on target
-      this.categoryDefault = this.categoryList[0];
-      //The sorting of the categories should be a UX concern, not an API concern. Right?    
-      this.categoryList = this.sortCategoryByName(this.categoryList);
+      this.categoryDefault = this.categoryList[0];        
+      this.categoryList = this.categoryService.sortCategoryByName(this.categoryList);
       this.itemChanged();
     });
-  }
-
-  sortCategoryByName = (categoryList: Category[]): Category[] => {
-    categoryList.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
-    return categoryList;
-  }
+  } 
 
   //This is going to be a problem how do you add from the handler in the html. A pass thru?
   addItem = (category: Category): void => {

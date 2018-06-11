@@ -4,6 +4,7 @@ import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { SumItem } from './budget-item.type';
 import { of } from 'rxjs';
+import { CategoryService } from '../category/category.service';
 
 //This is a test without all the set up, just newing up the class
 describe('SumComponent', () => {
@@ -19,7 +20,8 @@ describe('SumComponent', () => {
 
   let component: SumComponent;
   beforeEach(() => {
-    component = new SumComponent(<any>activateRouteMock, new MathService());
+    component = new SumComponent(<any>activateRouteMock, new MathService(),
+    new CategoryService());
   });
 
   it('add row should add an item to the list', () => {
@@ -59,7 +61,6 @@ describe('SumComponent', () => {
       expect(sum).toBe(5.6);
     });
 
-
     describe('setCategoryTotal', () => {
 
       it('should behave...', () => {
@@ -70,7 +71,6 @@ describe('SumComponent', () => {
           { id: 1, name: 'A' },
           { id: 2, name: 'B' }
         );
-
         amountList.push(
           { amount: 100, categoryId: categoryList[0].id },
           { amount: 150, categoryId: categoryList[0].id },
@@ -127,5 +127,20 @@ describe('SumComponent', () => {
         expect(categoryList[2].percent).toEqual(15);
       });
     });
+
+    describe('sortCategoryByName', () => {
+      it('should calculate correctly', () => {
+        const categoryList: Category[] = [];
+        categoryList.push({ id: 1, name: '', total: 50 });
+        categoryList.push({ id: 2, name: '', total: 20 });
+        categoryList.push({ id: 2, name: '', total: 30 });
+
+        component.setCategoryPercent(200, categoryList);
+        expect(categoryList[0].percent).toEqual(25);
+        expect(categoryList[1].percent).toEqual(10);
+        expect(categoryList[2].percent).toEqual(15);
+      });
+    });
+   
   });
 });

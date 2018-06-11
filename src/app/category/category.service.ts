@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Category } from './category.type';
 import { Observable, of } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -26,5 +25,18 @@ export class CategoryService {
       ];
 
     return of(catetoryList);
+  }
+
+  sortCategoryByName = (categoryList: Category[]): Category[] => {
+    categoryList.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+    return categoryList;
   }
 }
