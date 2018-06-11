@@ -23,7 +23,7 @@ export class SumComponent implements OnInit {
     this.activatedRoute.data.subscribe((data) => {
       this.categoryList = data['categoryList'];
       this.itemList = data['budgetItemList'];
-      //How do you want to handle the default category in the future
+      //How do you want to handle the default category in the future ??
       //it should just not be simply the first one. In the future
       //should the user be able to define it. Don't over think this. stay on target
       this.categoryDefault = this.categoryList[0];        
