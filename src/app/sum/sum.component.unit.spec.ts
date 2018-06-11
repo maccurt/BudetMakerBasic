@@ -20,12 +20,12 @@ describe('SumComponent', () => {
 
   let component: SumComponent;
   beforeEach(() => {
-    component = new SumComponent(<any>activateRouteMock, new MathService(),
-    new CategoryService());
+    component = new SumComponent(<any>activateRouteMock, new MathService(), new CategoryService());
+    component.categoryDefault = categoryList[0];
   });
 
   it('add row should add an item to the list', () => {
-    component.addItem(categoryList[0]);
+    component.addItem();
     expect(component.itemList.length).toEqual(1);
     expect(component.itemList[0].amount).toEqual(0);
   });
@@ -141,6 +141,6 @@ describe('SumComponent', () => {
         expect(categoryList[2].percent).toEqual(15);
       });
     });
-   
+
   });
 });

@@ -14,10 +14,10 @@ import { SumItem } from './budget-item.type';
 export class SumComponent implements OnInit {
   itemList: SumItem[] = [];
   categoryList: Category[] = [];
-  categoryDefault: Category;
+  public categoryDefault: Category;
   sum = 0;
   constructor(private activatedRoute: ActivatedRoute, private mathService: MathService,
-  private categoryService:CategoryService) { }
+    private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data) => {
@@ -26,20 +26,19 @@ export class SumComponent implements OnInit {
       //How do you want to handle the default category in the future ??
       //it should just not be simply the first one. In the future
       //should the user be able to define it. Don't over think this. stay on target
-      this.categoryDefault = this.categoryList[0];        
+      this.categoryDefault = this.categoryList[0];
       this.categoryList = this.categoryService.sortCategoryByName(this.categoryList);
       this.itemChanged();
     });
-  } 
-
-  //This is going to be a problem how do you add from the handler in the html. A pass thru?
-  addItem = (category: Category): void => {
-    const item = new SumItem();
-    item.amount = 0;
-    item.categoryId = category.id;
-    this.itemList.push(item);
   }
 
+  //This is going to be a problem how do you add from the handler in the html. A pass thru?
+  addItem = (): void => {
+    const item = new SumItem();
+    item.amount = 0;
+    item.categoryId = this.categoryDefault.id;
+    this.itemList.push(item);
+  }
   //TODO why pass the item in here if you are not doing anything with it
   itemChanged = (item?: SumItem): void => {
 
