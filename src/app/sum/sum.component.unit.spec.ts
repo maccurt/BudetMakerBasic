@@ -1,4 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SumComponent } from './sum.component';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
@@ -66,21 +65,21 @@ describe('SumComponent', () => {
       it('should behave...', () => {
         const amountList: SumItem[] = [];
 
-        const categoryList: Category[] = [];
-        categoryList.push(
+        const catList: Category[] = [];
+        catList.push(
           { id: 1, name: 'A' },
           { id: 2, name: 'B' }
         );
         amountList.push(
-          { amount: 100, categoryId: categoryList[0].id },
-          { amount: 150, categoryId: categoryList[0].id },
-          { amount: 50, categoryId: categoryList[1].id },
-          { amount: 75, categoryId: categoryList[1].id }
+          { amount: 100, categoryId: catList[0].id },
+          { amount: 150, categoryId: catList[0].id },
+          { amount: 50, categoryId: catList[1].id },
+          { amount: 75, categoryId: catList[1].id }
         );
 
-        component.setCategoryTotal(categoryList, amountList);
-        expect(categoryList[0].total).toEqual(250);
-        expect(categoryList[1].total).toEqual(125);
+        component.setCategoryTotal(catList, amountList);
+        expect(catList[0].total).toEqual(250);
+        expect(catList[1].total).toEqual(125);
       });
 
     });
@@ -116,29 +115,29 @@ describe('SumComponent', () => {
 
     describe('setCategoryPercent', () => {
       it('should calculate correctly', () => {
-        const categoryList: Category[] = [];
-        categoryList.push({ id: 1, name: '', total: 50 });
-        categoryList.push({ id: 2, name: '', total: 20 });
-        categoryList.push({ id: 2, name: '', total: 30 });
+        const catList: Category[] = [];
+        catList.push({ id: 1, name: '', total: 50 });
+        catList.push({ id: 2, name: '', total: 20 });
+        catList.push({ id: 2, name: '', total: 30 });
 
-        component.setCategoryPercent(200, categoryList);
-        expect(categoryList[0].percent).toEqual(25);
-        expect(categoryList[1].percent).toEqual(10);
-        expect(categoryList[2].percent).toEqual(15);
+        component.setCategoryPercent(200, catList);
+        expect(catList[0].percent).toEqual(25);
+        expect(catList[1].percent).toEqual(10);
+        expect(catList[2].percent).toEqual(15);
       });
     });
 
     describe('sortCategoryByName', () => {
       it('should calculate correctly', () => {
-        const categoryList: Category[] = [];
-        categoryList.push({ id: 1, name: '', total: 50 });
-        categoryList.push({ id: 2, name: '', total: 20 });
-        categoryList.push({ id: 2, name: '', total: 30 });
+        const catList: Category[] = [];
+        catList.push({ id: 1, name: '', total: 50 });
+        catList.push({ id: 2, name: '', total: 20 });
+        catList.push({ id: 2, name: '', total: 30 });
 
-        component.setCategoryPercent(200, categoryList);
-        expect(categoryList[0].percent).toEqual(25);
-        expect(categoryList[1].percent).toEqual(10);
-        expect(categoryList[2].percent).toEqual(15);
+        component.setCategoryPercent(200, catList);
+        expect(catList[0].percent).toEqual(25);
+        expect(catList[1].percent).toEqual(10);
+        expect(catList[2].percent).toEqual(15);
       });
     });
 
