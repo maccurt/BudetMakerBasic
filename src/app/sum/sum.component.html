@@ -25,10 +25,10 @@
             </thead>
 
             <tbody>
-                <tr *ngFor="let i of itemList">
-                    <td class='item-actions'>
+                <tr id="id-{{i.id}}" *ngFor="let i of itemList">
+                    <td  class='item-actions'>
                         <div class='actions-container'>
-                            <a title='delete' (click)="deleteItem(i)">
+                            <a class='delete-item' title='delete' (click)="deleteItem(i)">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </div>

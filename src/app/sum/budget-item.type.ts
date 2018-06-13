@@ -1,8 +1,9 @@
 import { Category } from '../category/category.type';
 
 export class SumItem {
+    id: number;
     amount: number;
-    percent?: number;    
+    percent?: number;
     categoryId?: number;
     description?: string;
 }

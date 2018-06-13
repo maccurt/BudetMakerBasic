@@ -33,10 +33,10 @@ describe('SumComponent', () => {
     it('it should remove correct  item from list', () => {
 
       const amountList: SumItem[] = [];
-      const item: SumItem = { amount: 4.6 };
+      const item: SumItem = { id: 1, amount: 4.6 };
       amountList.push(
         item,
-        { amount: 9.99 }
+        { id: 2, amount: 9.99 }
       );
       component.deleteItemFromList(item, amountList);
       expect(amountList.length).toBe(1);
@@ -71,10 +71,10 @@ describe('SumComponent', () => {
           { id: 2, name: 'B' }
         );
         amountList.push(
-          { amount: 100, categoryId: catList[0].id },
-          { amount: 150, categoryId: catList[0].id },
-          { amount: 50, categoryId: catList[1].id },
-          { amount: 75, categoryId: catList[1].id }
+          { id: 1, amount: 100, categoryId: catList[0].id },
+          { id: 2, amount: 150, categoryId: catList[0].id },
+          { id: 3, amount: 50, categoryId: catList[1].id },
+          { id: 4, amount: 75, categoryId: catList[1].id }
         );
 
         component.setCategoryTotal(catList, amountList);
@@ -90,9 +90,9 @@ describe('SumComponent', () => {
 
         const amountList: SumItem[] = [];
         amountList.push(
-          { amount: 100 },
-          { amount: 50 },
-          { amount: 50 }
+          { id: 1, amount: 100 },
+          { id: 2, amount: 50 },
+          { id: 3, amount: 50 }
         );
         component.setSumItemFields(200, amountList);
         expect(amountList[0].percent).toEqual(50);
@@ -103,8 +103,8 @@ describe('SumComponent', () => {
       it('a sum total of 75 and item of 50,25 should return correct.', () => {
         const amountList: SumItem[] = [];
         amountList.push(
-          { amount: 50 },
-          { amount: 25 }
+          { id: 1, amount: 50 },
+          { id: 2, amount: 25 }
         );
 
         component.setSumItemFields(75, amountList);

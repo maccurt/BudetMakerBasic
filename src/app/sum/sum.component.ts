@@ -52,6 +52,7 @@ export class SumComponent implements OnInit {
   deleteItem = (item: SumItem) => {
     this.deleteItemFromList(item, this.itemList);
     this.itemChanged();
+    this.categoryChanged();
   }
 
   deleteItemFromList = (item: SumItem, itemList: SumItem[]) => {
@@ -69,6 +70,12 @@ export class SumComponent implements OnInit {
 
     categoryList.forEach((category: Category) => {
       category.total = 0;
+      //You forgot to do this but your test did not show because you did not
+      //write a test how do you show that in video
+      //1. The issue is you have to test the outcome of you actions
+      //You have to test that numbers changed, not just that it was called etc
+      //You need an outcome test not that things just turn green
+      category.percent = 0;
     });
 
     itemList.forEach((item: SumItem) => {

@@ -12,31 +12,34 @@ import { SumItem } from './budget-item.type';
 describe('SumComponent', () => {
   let component: SumComponent;
   let fixture: ComponentFixture<SumComponent>;
-
-  const categoryList: Category[] =
-    [
-      { id: 1, name: 'Misc' }, { id: 2, name: 'Entertainment' },
-      { id: 3, name: 'Food' }, { id: 4, name: 'Energy Utilities' },
-      { id: 5, name: 'Zebra' }, { id: 6, name: 'Apple' },
-      { id: 7, name: 'Housing' }, { id: 8, name: 'Fuel-Gas' }
-    ];
-
-  const itemList: SumItem[] = [];
-  itemList.push({ amount: 1900, description: 'Mortgage', categoryId: 7 });
-  itemList.push({ amount: 200, description: 'OPPD', categoryId: 8 });
-  itemList.push({ amount: 100, description: 'Car Gas', categoryId: 8 });
-  itemList.push({ amount: 200, description: 'MUD', categoryId: 8 });
-  itemList.push({ amount: 11.99, description: 'Netflix', categoryId: 2 });
-  itemList.push({ amount: 105.36, description: 'Cox Cable', categoryId: 2 });
-  itemList.push({ amount: 500, description: 'Groceries', categoryId: 3 });
-  const activateRouteMock = {
-    data: of({
-      categoryList: categoryList,
-      budgetItemList: itemList
-    })
-  };
+  const itemToDelete: SumItem = { id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
 
   beforeEach(async(() => {
+
+    const categoryList: Category[] =
+      [
+        { id: 1, name: 'Misc' }, { id: 2, name: 'Entertainment' },
+        { id: 3, name: 'Food' }, { id: 4, name: 'Energy Utilities' },
+        { id: 5, name: 'Zebra' }, { id: 6, name: 'Apple' },
+        { id: 7, name: 'Housing' }, { id: 8, name: 'Fuel-Gas' }
+      ];
+
+    const itemList: SumItem[] = [];
+    itemList.push({ id: 1, amount: 1900, description: 'Mortgage', categoryId: 7 });
+    itemList.push({ id: 2, amount: 200, description: 'OPPD', categoryId: 8 });
+    itemList.push({ id: 3, amount: 100, description: 'Car Gas', categoryId: 8 });
+    itemList.push({ id: 4, amount: 200, description: 'MUD', categoryId: 8 });
+    itemList.push({ id: 5, amount: 11.99, description: 'Netflix', categoryId: 2 });
+    itemList.push({ id: 6, amount: 105.36, description: 'Cox Cable', categoryId: 2 });
+    itemList.push(itemToDelete);
+
+    const activateRouteMock = {
+      data: of({
+        categoryList: categoryList,
+        budgetItemList: itemList
+      })
+    };
+
     TestBed.configureTestingModule({
       declarations: [SumComponent],
       providers: [CategoryService, { provide: ActivatedRoute, useValue: activateRouteMock }],
@@ -71,5 +74,27 @@ describe('SumComponent', () => {
     //   A: Yes if you don't have Angular Language Service
     //      You could change the name of the function and it would break    
     //3. Why does this test have any value?    
+  });
+
+  describe('delete item', () => {
+    //This should make the video how to get an element from a native element
+
+    it('it should delete an item', () => {
+      const deleteLink = fixture.debugElement.query(By.css('#id-7'))
+        .nativeElement.querySelector('.delete-item');
+      expect(component.itemList.length).toBe(7);
+      deleteLink.click();
+      expect(component.itemList.length).toBe(6);
+    });
+
+    it('it should call the delete function with the correct item', () => {
+      const deleteLink = fixture.debugElement.query(By.css('#id-7'))
+        .nativeElement.querySelector('.delete-item');
+      expect(component.itemList.length).toBe(7);
+      spyOn(component, 'deleteItem');
+      deleteLink.click();
+      expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);
+    });
+
   });
 });
