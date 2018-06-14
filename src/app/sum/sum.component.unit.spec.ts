@@ -1,7 +1,7 @@
 import { SumComponent } from './sum.component';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
-import { SumItem } from './budget-item.type';
+import { BudgetItem } from './budget-item.type';
 import { of } from 'rxjs';
 import { CategoryService } from '../category/category.service';
 
@@ -25,15 +25,15 @@ describe('SumComponent', () => {
 
   it('add row should add an item to the list', () => {
     component.addItem();
-    expect(component.itemList.length).toEqual(1);
-    expect(component.itemList[0].amount).toEqual(0);
+    expect(component.budgetItemList.length).toEqual(1);
+    expect(component.budgetItemList[0].amount).toEqual(0);
   });
 
   describe('deleteItemFromList', () => {
     it('it should remove correct  item from list', () => {
 
-      const amountList: SumItem[] = [];
-      const item: SumItem = { id: 1, amount: 4.6 };
+      const amountList: BudgetItem[] = [];
+      const item: BudgetItem = { id: 1, amount: 4.6 };
       amountList.push(
         item,
         { id: 2, amount: 9.99 }
@@ -63,7 +63,7 @@ describe('SumComponent', () => {
     describe('setCategoryTotal', () => {
 
       it('should behave...', () => {
-        const amountList: SumItem[] = [];
+        const amountList: BudgetItem[] = [];
 
         const catList: Category[] = [];
         catList.push(
@@ -88,7 +88,7 @@ describe('SumComponent', () => {
 
       it('a sum total of 200 and item of 50,25,25 should return correct.', () => {
 
-        const amountList: SumItem[] = [];
+        const amountList: BudgetItem[] = [];
         amountList.push(
           { id: 1, amount: 100 },
           { id: 2, amount: 50 },
@@ -101,7 +101,7 @@ describe('SumComponent', () => {
       });
 
       it('a sum total of 75 and item of 50,25 should return correct.', () => {
-        const amountList: SumItem[] = [];
+        const amountList: BudgetItem[] = [];
         amountList.push(
           { id: 1, amount: 50 },
           { id: 2, amount: 25 }

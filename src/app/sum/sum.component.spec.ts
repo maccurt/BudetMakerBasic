@@ -7,12 +7,12 @@ import { CategoryService } from '../category/category.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Category } from '../category/category.type';
-import { SumItem } from './budget-item.type';
+import { BudgetItem } from './budget-item.type';
 
 describe('SumComponent', () => {
   let component: SumComponent;
   let fixture: ComponentFixture<SumComponent>;
-  const itemToDelete: SumItem = { id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
+  const itemToDelete: BudgetItem = { id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
 
   beforeEach(async(() => {
 
@@ -24,19 +24,19 @@ describe('SumComponent', () => {
         { id: 7, name: 'Housing' }, { id: 8, name: 'Fuel-Gas' }
       ];
 
-    const itemList: SumItem[] = [];
-    itemList.push({ id: 1, amount: 1900, description: 'Mortgage', categoryId: 7 });
-    itemList.push({ id: 2, amount: 200, description: 'OPPD', categoryId: 8 });
-    itemList.push({ id: 3, amount: 100, description: 'Car Gas', categoryId: 8 });
-    itemList.push({ id: 4, amount: 200, description: 'MUD', categoryId: 8 });
-    itemList.push({ id: 5, amount: 11.99, description: 'Netflix', categoryId: 2 });
-    itemList.push({ id: 6, amount: 105.36, description: 'Cox Cable', categoryId: 2 });
-    itemList.push(itemToDelete);
+    const budgetItemList: BudgetItem[] = [];
+    budgetItemList.push({ id: 1, amount: 1900, description: 'Mortgage', categoryId: 7 });
+    budgetItemList.push({ id: 2, amount: 200, description: 'OPPD', categoryId: 8 });
+    budgetItemList.push({ id: 3, amount: 100, description: 'Car Gas', categoryId: 8 });
+    budgetItemList.push({ id: 4, amount: 200, description: 'MUD', categoryId: 8 });
+    budgetItemList.push({ id: 5, amount: 11.99, description: 'Netflix', categoryId: 2 });
+    budgetItemList.push({ id: 6, amount: 105.36, description: 'Cox Cable', categoryId: 2 });
+    budgetItemList.push(itemToDelete);
 
     const activateRouteMock = {
       data: of({
         categoryList: categoryList,
-        budgetItemList: itemList
+        budgetItemList: budgetItemList
       })
     };
 
@@ -82,15 +82,15 @@ describe('SumComponent', () => {
     it('it should delete an item', () => {
       const deleteLink = fixture.debugElement.query(By.css('#id-7'))
         .nativeElement.querySelector('.delete-item');
-      expect(component.itemList.length).toBe(7);
+      expect(component.budgetItemList.length).toBe(7);
       deleteLink.click();
-      expect(component.itemList.length).toBe(6);
+      expect(component.budgetItemList.length).toBe(6);
     });
 
     it('it should call the delete function with the correct item', () => {
       const deleteLink = fixture.debugElement.query(By.css('#id-7'))
         .nativeElement.querySelector('.delete-item');
-      expect(component.itemList.length).toBe(7);
+      expect(component.budgetItemList.length).toBe(7);
       spyOn(component, 'deleteItem');
       deleteLink.click();
       expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);

@@ -4,7 +4,7 @@ import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrie
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
-import { SumItem } from './budget-item.type';
+import { BudgetItem } from './budget-item.type';
 
 @Component({
   selector: 'app-sum',
@@ -12,7 +12,7 @@ import { SumItem } from './budget-item.type';
   styleUrls: ['./sum.component.less']
 })
 export class SumComponent implements OnInit {
-  itemList: SumItem[] = [];
+  budgetItemList: BudgetItem[] = [];
   categoryList: Category[] = [];
   public categoryDefault: Category;
   sum = 0;
@@ -22,7 +22,7 @@ export class SumComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe((data) => {
       this.categoryList = data['categoryList'];
-      this.itemList = data['budgetItemList'];
+      this.budgetItemList = data['budgetItemList'];
       //How do you want to handle the default category in the future ??
       //it should just not be simply the first one. In the future
       //should the user be able to define it. Don't over think this. stay on target
@@ -34,39 +34,39 @@ export class SumComponent implements OnInit {
 
   //This is going to be a problem how do you add from the handler in the html. A pass thru?
   addItem = (): void => {
-    const item = new SumItem();
+    const item = new BudgetItem();
     item.amount = 0;
     item.categoryId = this.categoryDefault.id;
-    this.itemList.push(item);
+    this.budgetItemList.push(item);
   }
   //TODO why pass the item in here if you are not doing anything with it
-  itemChanged = (item?: SumItem): void => {
+  itemChanged = (item?: BudgetItem): void => {
 
     //TODO this should not be called sum it should be called total fix this
-    this.sum = this.sumAmountList(this.itemList);
-    this.setSumItemFields(this.sum, this.itemList);
-    this.setCategoryTotal(this.categoryList, this.itemList);
+    this.sum = this.sumAmountList(this.budgetItemList);
+    this.setSumItemFields(this.sum, this.budgetItemList);
+    this.setCategoryTotal(this.categoryList, this.budgetItemList);
     this.setCategoryPercent(this.sum, this.categoryList);
   }
 
-  deleteItem = (item: SumItem) => {
-    this.deleteItemFromList(item, this.itemList);
+  deleteItem = (item: BudgetItem) => {
+    this.deleteItemFromList(item, this.budgetItemList);
     this.itemChanged();
     this.categoryChanged();
   }
 
-  deleteItemFromList = (item: SumItem, itemList: SumItem[]) => {
-    const index = itemList.indexOf(item);
+  deleteItemFromList = (item: BudgetItem, budgetItemList: BudgetItem[]) => {
+    const index = budgetItemList.indexOf(item);
     if (index > -1) {
-      itemList.splice(index, 1);
+      budgetItemList.splice(index, 1);
     }
   }
 
   categoryChanged = () => {
-    this.setCategoryTotal(this.categoryList, this.itemList);
+    this.setCategoryTotal(this.categoryList, this.budgetItemList);
     this.setCategoryPercent(this.sum, this.categoryList);
   }
-  setCategoryTotal = (categoryList: Category[], itemList: SumItem[]): void => {
+  setCategoryTotal = (categoryList: Category[], budgetItemList: BudgetItem[]): void => {
 
     categoryList.forEach((category: Category) => {
       category.total = 0;
@@ -78,7 +78,7 @@ export class SumComponent implements OnInit {
       category.percent = 0;
     });
 
-    itemList.forEach((item: SumItem) => {
+    budgetItemList.forEach((item: BudgetItem) => {
       if (item.amount) {
 
         const category = categoryList.find((element: Category) => {
@@ -98,17 +98,17 @@ export class SumComponent implements OnInit {
     });
   }
 
-  setSumItemFields = (sumTotal: number, itemList: SumItem[]): void => {
-    itemList.forEach((item: SumItem) => {
+  setSumItemFields = (sumTotal: number, budgetItemList: BudgetItem[]): void => {
+    budgetItemList.forEach((item: BudgetItem) => {
       if (item.amount) {
         item.percent = this.mathService.getPercent(item.amount, sumTotal);
       }
     });
   }
 
-  sumAmountList = (itemList: SumItem[]): number => {
+  sumAmountList = (budgetItemList: BudgetItem[]): number => {
     let sum = 0;
-    itemList.forEach((item: SumItem) => {
+    budgetItemList.forEach((item: BudgetItem) => {
       if (item.amount) {
         sum += item.amount;
       }

@@ -1,6 +1,6 @@
 import { Category } from '../category/category.type';
 
-export class SumItem {
+export class BudgetItem {
     id: number;
     amount: number;
     percent?: number;
