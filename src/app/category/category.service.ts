@@ -18,7 +18,8 @@ export class CategoryService {
         { id: 2, name: 'Entertainment' },
         { id: 3, name: 'Food' },
         { id: 4, name: 'Energy Utilities' },
-        { id: 5, name: 'Zebra' },        
+        { id: 5, name: 'Zebra' },
+        { id: 6, name: 'Apple' },
         { id: 7, name: 'Housing' },
         { id: 8, name: 'Fuel-Gas' }
       ];
@@ -27,6 +28,7 @@ export class CategoryService {
   }
 
   sortCategoryByName = (categoryList: Category[]): Category[] => {
+    //I made a chnageS
     categoryList.sort((a, b) => {
       if (a.name < b.name) {
         return -1;
