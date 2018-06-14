@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SumComponent } from './sum/sum.component';
 import { CategoryListResolver } from './category/category-list.resolver';
-import { BudgetItemListResolver } from './sum/budget-item-list.resolver';
+import { BudgetComponent } from './budget/budget.component';
+import { BudgetItemListResolver } from './budget/budget-item-list.resolver';
 
-const routes: Routes = [
-  // { path: 'home', component: SumComponent },
+const routes: Routes = [  
   {
-    path: 'sum',
-    component: SumComponent,
+    path: 'budget',
+    component: BudgetComponent,
     resolve: {
       categoryList: CategoryListResolver,
       budgetItemList: BudgetItemListResolver
     }
   },
-  { path: '', redirectTo: '/sum', pathMatch: 'full' }
+  { path: '', redirectTo: '/budget', pathMatch: 'full' }
 ];
 
 @NgModule({

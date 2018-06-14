@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { SumComponent } from './sum.component';
+import { BudgetComponent } from './budget.component';
 import { By } from '@angular/platform-browser';
 import { DirectivesModule } from '../directives/directives.module';
 import { CategoryService } from '../category/category.service';
@@ -9,9 +9,9 @@ import { Observable, of } from 'rxjs';
 import { Category } from '../category/category.type';
 import { BudgetItem } from './budget-item.type';
 
-describe('SumComponent', () => {
-  let component: SumComponent;
-  let fixture: ComponentFixture<SumComponent>;
+describe('BudgetComponent', () => {  
+  let component: BudgetComponent;
+  let fixture: ComponentFixture<BudgetComponent>;
   const itemToDelete: BudgetItem = { id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
 
   beforeEach(async(() => {
@@ -41,7 +41,7 @@ describe('SumComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [SumComponent],
+      declarations: [BudgetComponent],
       providers: [CategoryService, { provide: ActivatedRoute, useValue: activateRouteMock }],
       imports: [FormsModule, DirectivesModule]
     })
@@ -49,7 +49,7 @@ describe('SumComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SumComponent);
+    fixture = TestBed.createComponent(BudgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

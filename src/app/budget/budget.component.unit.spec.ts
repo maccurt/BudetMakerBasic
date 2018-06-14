@@ -1,4 +1,4 @@
-import { SumComponent } from './sum.component';
+import { BudgetComponent } from './budget.component';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { BudgetItem } from './budget-item.type';
@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { CategoryService } from '../category/category.service';
 
 //This is a test without all the set up, just newing up the class
-describe('SumComponent', () => {
+describe('BudgetComponent', () => {
 
   const categoryList: Category[] = [];
   categoryList.push(
@@ -17,9 +17,9 @@ describe('SumComponent', () => {
     data: of({ categoryList: categoryList })
   };
 
-  let component: SumComponent;
+  let component: BudgetComponent;
   beforeEach(() => {
-    component = new SumComponent(<any>activateRouteMock, new MathService(), new CategoryService());
+    component = new BudgetComponent(<any>activateRouteMock, new MathService(), new CategoryService());
     component.categoryDefault = categoryList[0];
   });
 

@@ -18,8 +18,8 @@ export class CategoryService {
         { id: 2, name: 'Entertainment' },
         { id: 3, name: 'Food' },
         { id: 4, name: 'Energy Utilities' },
-        { id: 5, name: 'Zebra' },
-        { id: 6, name: 'Apple' },
+        { id: 5, name: 'Transportation' },
+        { id: 6, name: 'Education' },
         { id: 7, name: 'Housing' },
         { id: 8, name: 'Fuel-Gas' }
       ];

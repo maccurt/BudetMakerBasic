@@ -1,6 +1,5 @@
 import { CategoryService } from './../category/category.service';
 import { Component, OnInit } from '@angular/core';
-import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
@@ -8,10 +7,10 @@ import { BudgetItem } from './budget-item.type';
 
 @Component({
   selector: 'app-sum',
-  templateUrl: './sum.component.html',
-  styleUrls: ['./sum.component.less']
+  templateUrl: './budget.component.html',
+  styleUrls: ['./budget.component.less']
 })
-export class SumComponent implements OnInit {
+export class BudgetComponent implements OnInit {
   budgetItemList: BudgetItem[] = [];
   categoryList: Category[] = [];
   public categoryDefault: Category;
