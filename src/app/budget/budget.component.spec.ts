@@ -9,28 +9,28 @@ import { Observable, of } from 'rxjs';
 import { Category } from '../category/category.type';
 import { BudgetItem } from './budget-item.type';
 
-describe('BudgetComponent', () => {  
+describe('BudgetComponent', () => {
   let component: BudgetComponent;
   let fixture: ComponentFixture<BudgetComponent>;
   const itemToDelete: BudgetItem = { id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
+  const groceryCategory: Category = { id: 3, name: 'Food' };
 
   beforeEach(async(() => {
 
     const categoryList: Category[] =
       [
+        groceryCategory,
         { id: 1, name: 'Misc' }, { id: 2, name: 'Entertainment' },
-        { id: 3, name: 'Food' }, { id: 4, name: 'Energy Utilities' },
+        { id: 4, name: 'Energy Utilities' },
         { id: 5, name: 'Zebra' }, { id: 6, name: 'Apple' },
         { id: 7, name: 'Housing' }, { id: 8, name: 'Fuel-Gas' }
       ];
 
     const budgetItemList: BudgetItem[] = [];
-    budgetItemList.push({ id: 1, amount: 1900, description: 'Mortgage', categoryId: 7 });
-    budgetItemList.push({ id: 2, amount: 200, description: 'OPPD', categoryId: 8 });
-    budgetItemList.push({ id: 3, amount: 100, description: 'Car Gas', categoryId: 8 });
+    budgetItemList.push({ id: 1, amount: 100, description: 'Mortgage', categoryId: 7 });
+    budgetItemList.push({ id: 2, amount: 200, description: 'Gas', categoryId: 8 });
+    budgetItemList.push({ id: 3, amount: 100, description: 'Gas For Car', categoryId: 8 });
     budgetItemList.push({ id: 4, amount: 200, description: 'MUD', categoryId: 8 });
-    budgetItemList.push({ id: 5, amount: 11.99, description: 'Netflix', categoryId: 2 });
-    budgetItemList.push({ id: 6, amount: 105.36, description: 'Cox Cable', categoryId: 2 });
     budgetItemList.push(itemToDelete);
 
     const activateRouteMock = {
@@ -82,18 +82,23 @@ describe('BudgetComponent', () => {
     it('it should delete an item', () => {
       const deleteLink = fixture.debugElement.query(By.css('#id-7'))
         .nativeElement.querySelector('.delete-item');
-      expect(component.budgetItemList.length).toBe(7);
+      //Does this test have to many expects
+      //This test is to show you can have coverage but did not test the percent piece
+      //should this show the total also. Yes!
+      expect(component.budgetItemList.length).toBe(5);
+      expect(groceryCategory.percent).toEqual(45.45);
       deleteLink.click();
-      expect(component.budgetItemList.length).toBe(6);
+      expect(component.budgetItemList.length).toBe(4);
+      expect(groceryCategory.percent).toEqual(0);
     });
 
     it('it should call the delete function with the correct item', () => {
       const deleteLink = fixture.debugElement.query(By.css('#id-7'))
         .nativeElement.querySelector('.delete-item');
-      expect(component.budgetItemList.length).toBe(7);
+      expect(component.budgetItemList.length).toBe(5);
       spyOn(component, 'deleteItem');
       deleteLink.click();
-      expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);
+      expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);      
     });
 
   });

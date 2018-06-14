@@ -50,8 +50,11 @@ export class BudgetComponent implements OnInit {
 
   deleteItem = (item: BudgetItem) => {
     this.deleteItemFromList(item, this.budgetItemList);
-    this.itemChanged();
-    this.categoryChanged();
+    //If you delete an item you have alert that an item was changed
+    //Perhaps this is not the best name, it could be itemListChanged
+    //because the item was delete and it was the itemList that was changed
+    //not the item perse    
+    this.itemChanged();   
   }
 
   deleteItemFromList = (item: BudgetItem, budgetItemList: BudgetItem[]) => {
@@ -79,11 +82,9 @@ export class BudgetComponent implements OnInit {
 
     budgetItemList.forEach((item: BudgetItem) => {
       if (item.amount) {
-
         const category = categoryList.find((element: Category) => {
           return element.id === item.categoryId;
         });
-
         category.total += item.amount;
       }
     });

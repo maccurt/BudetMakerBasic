@@ -26,7 +26,7 @@
 
             <tbody>
                 <tr id="id-{{i.id}}" *ngFor="let i of budgetItemList">
-                    <td  class='item-actions'>
+                    <td class='item-actions'>
                         <div class='actions-container'>
                             <a class='delete-item' title='delete' (click)="deleteItem(i)">
                                 <i class="fa fa-trash-o"></i>
@@ -75,14 +75,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let c of categoryList">
-                    <td>
+                <tr id="category-{{c.id}}" *ngFor="let c of categoryList">
+                    <td class='category-name'>
                         {{c.name}}
                     </td>
-                    <td>
+                    <td class='category-total'>
                         {{c.total}}
                     </td>
-                    <td>
+                    <td class='category-percent'>
                         {{c.percent}}
                     </td>
                 </tr>
