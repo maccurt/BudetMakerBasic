@@ -60,6 +60,23 @@ describe('BudgetComponent', () => {
       expect(sum).toBe(5.6);
     });
 
+    describe('categoryChanged',()=>{
+
+      it('should call the correct methods',()=>{
+        //Is this really a good test?
+        //Should you not be testing the outcome?
+        //I can live with this because I am unit testing those method
+        //Here I would be testing that it got called correctly        
+        spyOn(component,'setCategoryPercent')
+        spyOn(component,'setCategoryTotal')
+          component.categoryChanged();
+          expect(component.setCategoryTotal)
+          .toHaveBeenCalledWith(component.categoryList,component.budgetItemList)
+         expect(component.setCategoryPercent)
+          .toHaveBeenCalledWith(component.sum,component.categoryList) 
+      })     
+
+    })
     describe('setCategoryTotal', () => {
 
       it('should behave...', () => {

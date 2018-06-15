@@ -13,7 +13,8 @@ const routes: Routes = [
       budgetItemList: BudgetItemListResolver
     }
   },
-  { path: '', redirectTo: '/budget', pathMatch: 'full' }
+  { path: '', redirectTo: '/budget', pathMatch: 'full' },
+  { path: '**', component: BudgetComponent } 
 ];
 
 @NgModule({

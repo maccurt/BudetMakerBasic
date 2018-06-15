@@ -65,9 +65,18 @@ export class BudgetComponent implements OnInit {
   }
 
   categoryChanged = () => {
+    //What is a good test for this?
+    //You are testing the method it call already
+    //Is it good enough to just test that it calls these methods?
+    //What if you change the name of the methods in here?
+    //Would the test still be valid. 
+    //I want to know that if I change a category something happens
+    //not that is just got called    
+
     this.setCategoryTotal(this.categoryList, this.budgetItemList);
     this.setCategoryPercent(this.sum, this.categoryList);
   }
+  
   setCategoryTotal = (categoryList: Category[], budgetItemList: BudgetItem[]): void => {
 
     categoryList.forEach((category: Category) => {
