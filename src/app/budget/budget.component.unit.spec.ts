@@ -60,23 +60,35 @@ describe('BudgetComponent', () => {
       expect(sum).toBe(5.6);
     });
 
-    describe('categoryChanged',()=>{
+    describe('categoryChanged', () => {
 
-      it('should call the correct methods',()=>{
+      it('should call the correct methods', () => {
         //Is this really a good test?
         //Should you not be testing the outcome?
         //I can live with this because I am unit testing those method
         //Here I would be testing that it got called correctly        
-        spyOn(component,'setCategoryPercent')
-        spyOn(component,'setCategoryTotal')
-          component.categoryChanged();
-          expect(component.setCategoryTotal)
-          .toHaveBeenCalledWith(component.categoryList,component.budgetItemList)
-         expect(component.setCategoryPercent)
-          .toHaveBeenCalledWith(component.sum,component.categoryList) 
-      })     
+        spyOn(component, 'setCategoryPercent');
+        spyOn(component, 'setCategoryTotal');
+        component.categoryChanged();
+        expect(component.setCategoryTotal)
+          .toHaveBeenCalledWith(component.categoryList, component.budgetItemList);
+        expect(component.setCategoryPercent)
+          .toHaveBeenCalledWith(component.sum, component.categoryList);
+      });
 
-    })
+      it('should set the percent and total correctly', () => {
+
+        //Is this test worth it? Does not the unit test of the methods inside test this?
+        component.budgetItemList = [{ id: 1, categoryId: 99, amount: 100 }];
+        component.categoryList = [{ id: 99, name: 'dummy' }];
+        component.sum = 200;
+        component.categoryChanged();
+        expect(component.categoryList[0].percent).toEqual(50);
+        expect(component.categoryList[0].total).toEqual(100);
+      });
+
+    });
+
     describe('setCategoryTotal', () => {
 
       it('should behave...', () => {
@@ -98,7 +110,6 @@ describe('BudgetComponent', () => {
         expect(catList[0].total).toEqual(250);
         expect(catList[1].total).toEqual(125);
       });
-
     });
 
     describe('setSumItemFields', () => {
