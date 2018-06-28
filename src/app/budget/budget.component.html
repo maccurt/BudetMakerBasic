@@ -54,7 +54,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        <h3> {{sum| currency}}</h3>
+                        <h3> {{total| currency}}</h3>
                     </td>
                     <td colspan="3"></td>
 
@@ -66,37 +66,8 @@
 
     <div class='col-lg-3'>
 
-        <table class="table table-striped table-sm category-table">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Total</th>
-                    <th>%</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="category-{{c.id}}" *ngFor="let c of categoryList">
-                    <td class='category-name'>
-                        {{c.name}}
-                    </td>
-                    <td class='category-total'>
-                        {{c.total}}
-                    </td>
-                    <td class='category-percent'>
-                        {{c.percent}}
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td colspan='2'>
-                        <h4> {{sum| currency}}</h4>
-                    </td>
+        <category-list [categoryList]='categoryList' [total]='total'></category-list>
 
-                </tr>
-            </tfoot>
-        </table>
     </div>
 
 </div>

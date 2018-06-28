@@ -1,24 +1,27 @@
 import { CategoryService } from './../category/category.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, QueryList } from '@angular/core';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
 import { BudgetItem } from './budget-item.type';
+import { BudgetItemService } from './budget-item.service';
+import { NumericInputDirective } from '../directives/numeric-input.directive';
 
 @Component({
   selector: 'app-sum',
   templateUrl: './budget.component.html',
   styleUrls: ['./budget.component.less']
 })
-export class BudgetComponent implements OnInit {
+export class BudgetComponent implements OnInit, AfterViewInit {
   budgetItemList: BudgetItem[] = [];
   categoryList: Category[] = [];
   public categoryDefault: Category;
-  sum = 0;
+  total = 0;
   constructor(private activatedRoute: ActivatedRoute, private mathService: MathService,
     private categoryService: CategoryService) { }
 
   ngOnInit() {
+
     this.activatedRoute.data.subscribe((data) => {
       this.categoryList = data['categoryList'];
       this.budgetItemList = data['budgetItemList'];
@@ -31,6 +34,9 @@ export class BudgetComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+  }
+
   //This is going to be a problem how do you add from the handler in the html. A pass thru?
   addItem = (): void => {
     const item = new BudgetItem();
@@ -41,11 +47,11 @@ export class BudgetComponent implements OnInit {
   //TODO why pass the item in here if you are not doing anything with it
   itemChanged = (item?: BudgetItem): void => {
 
-    //TODO this should not be called sum it should be called total fix this
-    this.sum = this.sumAmountList(this.budgetItemList);
-    this.setSumItemFields(this.sum, this.budgetItemList);
+    
+    this.total = this.sumAmountList(this.budgetItemList);
+    this.setSumItemFields(this.total, this.budgetItemList);
     this.setCategoryTotal(this.categoryList, this.budgetItemList);
-    this.setCategoryPercent(this.sum, this.categoryList);
+    this.setCategoryPercent(this.total, this.categoryList);
   }
 
   deleteItem = (item: BudgetItem) => {
@@ -54,7 +60,7 @@ export class BudgetComponent implements OnInit {
     //Perhaps this is not the best name, it could be itemListChanged
     //because the item was delete and it was the itemList that was changed
     //not the item perse    
-    this.itemChanged();   
+    this.itemChanged();
   }
 
   deleteItemFromList = (item: BudgetItem, budgetItemList: BudgetItem[]) => {
@@ -74,9 +80,9 @@ export class BudgetComponent implements OnInit {
     //not that is just got called    
 
     this.setCategoryTotal(this.categoryList, this.budgetItemList);
-    this.setCategoryPercent(this.sum, this.categoryList);
+    this.setCategoryPercent(this.total, this.categoryList);
   }
-  
+
   setCategoryTotal = (categoryList: Category[], budgetItemList: BudgetItem[]): void => {
 
     categoryList.forEach((category: Category) => {
@@ -96,6 +102,15 @@ export class BudgetComponent implements OnInit {
         });
         category.total += item.amount;
       }
+    });
+
+    //I hate to do this, but this prevents the total from 
+    //having trailing digits. For instance when I took this away
+    //category entertainment total was 222.70999999999998
+    //when it should be 222.71.
+    //TODO figure out why this is
+    categoryList.forEach((category: Category) => {
+      category.total = this.mathService.round(category.total, 2);
     });
   }
 

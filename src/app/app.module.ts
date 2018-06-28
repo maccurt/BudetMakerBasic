@@ -8,12 +8,14 @@ import { DirectivesModule } from './directives/directives.module';
 import { SharedModule } from './shared/shared.module';
 import { CategoryModule } from './category/category.module';
 import { BudgetItemListResolver } from './budget/budget-item-list.resolver';
+import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './home/home.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent, BudgetComponent
+    AppComponent, BudgetComponent, HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +23,8 @@ import { BudgetItemListResolver } from './budget/budget-item-list.resolver';
     FormsModule,
     DirectivesModule,
     SharedModule,
-    CategoryModule
+    CategoryModule,
+    HttpClientModule
   ],
   providers: [BudgetItemListResolver],
   bootstrap: [AppComponent]

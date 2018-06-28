@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BudgetItem } from './budget-item.type';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetItemService {
 
-  constructor() { }
+  //TODO figure this out, what do you do when this is for Prod and not local host
+  //What is the best way to do this? Inject a config?
+  getBudgetItemsListUrl = 'http://localhost/BugetMaker/api/budgetItemList';
+  constructor(private httpClient: HttpClient) { }
 
   getBudgetItemList = (): Observable<BudgetItem[]> => {
-
-    const budgetItemList: BudgetItem[] = [];
-    budgetItemList.push({ id: 1, amount: 1900, description: 'Mortgage', categoryId: 7 });
-    budgetItemList.push({ id: 2, amount: 200, description: 'OPPD', categoryId: 8 });
-    budgetItemList.push({ id: 3, amount: 100, description: 'Car Gas', categoryId: 8 });
-    budgetItemList.push({ id: 4, amount: 200, description: 'MUD', categoryId: 8 });
-    budgetItemList.push({ id: 5, amount: 11.99, description: 'Netflix', categoryId: 2 });
-    budgetItemList.push({ id: 6, amount: 105.36, description: 'Cox Cable', categoryId: 2 });
-    budgetItemList.push({ id: 7, amount: 500, description: 'Groceries', categoryId: 3 });
-    return of(budgetItemList);
+    return this.httpClient.get<BudgetItem[]>(this.getBudgetItemsListUrl);    
   }
 }

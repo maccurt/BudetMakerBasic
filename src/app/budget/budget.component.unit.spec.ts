@@ -19,7 +19,7 @@ describe('BudgetComponent', () => {
 
   let component: BudgetComponent;
   beforeEach(() => {
-    component = new BudgetComponent(<any>activateRouteMock, new MathService(), new CategoryService());
+    component = new BudgetComponent(<any>activateRouteMock, new MathService(), new CategoryService(null));
     component.categoryDefault = categoryList[0];
   });
 
@@ -73,7 +73,7 @@ describe('BudgetComponent', () => {
         expect(component.setCategoryTotal)
           .toHaveBeenCalledWith(component.categoryList, component.budgetItemList);
         expect(component.setCategoryPercent)
-          .toHaveBeenCalledWith(component.sum, component.categoryList);
+          .toHaveBeenCalledWith(component.total, component.categoryList);
       });
 
       it('should set the percent and total correctly', () => {
@@ -81,7 +81,7 @@ describe('BudgetComponent', () => {
         //Is this test worth it? Does not the unit test of the methods inside test this?
         component.budgetItemList = [{ id: 1, categoryId: 99, amount: 100 }];
         component.categoryList = [{ id: 99, name: 'dummy' }];
-        component.sum = 200;
+        component.total = 200;
         component.categoryChanged();
         expect(component.categoryList[0].percent).toEqual(50);
         expect(component.categoryList[0].total).toEqual(100);

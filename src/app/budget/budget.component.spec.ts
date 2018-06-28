@@ -8,6 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Category } from '../category/category.type';
 import { BudgetItem } from './budget-item.type';
+import { CategoryListComponent } from '../category/category-list.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 describe('BudgetComponent', () => {
   let component: BudgetComponent;
@@ -41,9 +44,9 @@ describe('BudgetComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [BudgetComponent],
+      declarations: [BudgetComponent, CategoryListComponent],
       providers: [CategoryService, { provide: ActivatedRoute, useValue: activateRouteMock }],
-      imports: [FormsModule, DirectivesModule]
+      imports: [FormsModule, DirectivesModule, HttpClientModule]
     })
       .compileComponents();
   }));
@@ -98,7 +101,7 @@ describe('BudgetComponent', () => {
       expect(component.budgetItemList.length).toBe(5);
       spyOn(component, 'deleteItem');
       deleteLink.click();
-      expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);      
+      expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);
     });
 
   });

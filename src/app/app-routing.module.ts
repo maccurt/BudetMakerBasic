@@ -3,18 +3,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { CategoryListResolver } from './category/category-list.resolver';
 import { BudgetComponent } from './budget/budget.component';
 import { BudgetItemListResolver } from './budget/budget-item-list.resolver';
+import { HomeComponent } from './home/home.component';
 
-const routes: Routes = [  
-  {
-    path: 'budget',
-    component: BudgetComponent,
-    resolve: {
-      categoryList: CategoryListResolver,
-      budgetItemList: BudgetItemListResolver
-    }
-  },
-  { path: '', redirectTo: '/budget', pathMatch: 'full' },
-  { path: '**', component: BudgetComponent } 
+const resolve = {
+  categoryList: CategoryListResolver,
+  budgetItemList: BudgetItemListResolver
+};
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'budget', component: BudgetComponent, resolve: resolve },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', component: HomeComponent }
+
 ];
 
 @NgModule({
