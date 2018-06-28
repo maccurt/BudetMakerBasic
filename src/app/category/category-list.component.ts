@@ -8,7 +8,7 @@ import { Category } from './category.type';
 })
 export class CategoryListComponent implements OnInit {
 
-  @Input() categoryList: Category[]
+  @Input() categoryList: Category[];
   @Input() total: number;
   constructor() { }
 

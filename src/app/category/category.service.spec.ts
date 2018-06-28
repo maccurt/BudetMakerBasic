@@ -5,7 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CategoryService', () => {
 
-  var categoryService: CategoryService;
+  let categoryService: CategoryService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CategoryService],
@@ -30,10 +30,10 @@ describe('CategoryService', () => {
       ];
       const sortedList = categoryService.sortCategoryByName(categoryList);
 
-      expect(sortedList[0].name).toBe('Apple')
-      expect(sortedList[1].name).toBe('Apple')
-      expect(sortedList[2].name).toBe('Zebra')
+      expect(sortedList[0].name).toBe('Apple');
+      expect(sortedList[1].name).toBe('Apple');
+      expect(sortedList[2].name).toBe('Zebra');
     });
 
-  })
+  });
 });

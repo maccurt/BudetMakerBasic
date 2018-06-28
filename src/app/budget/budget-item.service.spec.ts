@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing'
+import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
 
 import { BudgetItemService } from './budget-item.service';
 import { BudgetItem } from './budget-item.type';
@@ -19,7 +19,7 @@ describe('BudgetItemService', () => {
       imports: [HttpClientTestingModule]
     });
 
-    httpTestingController = TestBed.get(HttpTestingController)
+    httpTestingController = TestBed.get(HttpTestingController);
     service = TestBed.get(BudgetItemService);
   });
 
@@ -35,10 +35,10 @@ describe('BudgetItemService', () => {
       expect(data).toEqual(budgetItemList);
     });
 
-    let request: TestRequest = httpTestingController.expectOne(service.getBudgetItemsListUrl);
+    const request: TestRequest = httpTestingController.expectOne(service.getBudgetItemsListUrl);
 
-    expect(request.request.method).toEqual('GET')
-    request.flush(budgetItemList)   
+    expect(request.request.method).toEqual('GET');
+    request.flush(budgetItemList);   
 
   });
 

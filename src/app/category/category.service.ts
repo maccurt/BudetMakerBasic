@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CategoryService {
 
-  constructor(private httpClient:HttpClient ) { }
+  constructor(private httpClient: HttpClient ) { }
 
   getCategoryList = (): Observable<Category[]> => {
 

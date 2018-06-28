@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { BudgetItem } from './budget-item.type';
 import { HttpClient } from '@angular/common/http';
 
-
 @Injectable({
   providedIn: 'root'
 })
