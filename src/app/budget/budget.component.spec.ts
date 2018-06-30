@@ -7,7 +7,7 @@ import { CategoryService } from '../category/category.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Category } from '../category/category.type';
-import { BudgetItem } from './budget-item.type';
+import { BudgetItem } from './budget.types';
 import { CategoryListComponent } from '../category/category-list.component';
 import { HttpClientModule } from '@angular/common/http';
 

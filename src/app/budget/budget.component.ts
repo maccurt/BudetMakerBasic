@@ -3,8 +3,8 @@ import { Component, OnInit, AfterViewInit, ViewChild, QueryList } from '@angular
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
-import { BudgetItem } from './budget-item.type';
-import { BudgetItemService } from './budget-item.service';
+import { BudgetItem } from './budget.types';
+import { BudgetService } from './budget.service';
 import { NumericInputDirective } from '../directives/numeric-input.directive';
 
 @Component({

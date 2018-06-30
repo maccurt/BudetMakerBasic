@@ -1,0 +1,25 @@
+<div class="row">
+  <div class='col-9'>
+    <table class='budget-list-table table-striped table-sm'>
+      <thead>
+        <tr>
+          <th> Name </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let b of budgetList">
+          <td>
+            <!-- Question: Can you remember this is the way to set a route with a parameter -->
+            <a [routerLink]="['/budget',b.id]"> {{b.name}}</a>
+          </td>
+
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+
+
+</div>

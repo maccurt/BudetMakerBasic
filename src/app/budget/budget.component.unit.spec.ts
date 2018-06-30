@@ -1,7 +1,7 @@
 import { BudgetComponent } from './budget.component';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
-import { BudgetItem } from './budget-item.type';
+import { BudgetItem } from './budget.types';
 import { of } from 'rxjs';
 import { CategoryService } from '../category/category.service';
 

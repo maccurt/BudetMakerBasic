@@ -5,6 +5,7 @@ import { NumericInputDirective } from '../directives/numeric-input.directive';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     FormsModule,
     BrowserModule,
-    HttpClientModule]
+    HttpClientModule,
+    RouterModule]
 })
 export class SharedModule { }

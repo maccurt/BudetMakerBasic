@@ -1,8 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import { BudgetItem } from './budget.types';
+import { BudgetService } from './budget.service';
 
-import { BudgetItemService } from './budget-item.service';
-import { BudgetItem } from './budget-item.type';
 
 describe('BudgetItemService', () => {
 
@@ -10,17 +10,17 @@ describe('BudgetItemService', () => {
   budgetItemList.push({ id: 1, amount: 1900, description: 'Mortgage', categoryId: 7 });
   budgetItemList.push({ id: 2, amount: 200, description: 'OPPD', categoryId: 8 });
 
-  let service: BudgetItemService;
+  let service: BudgetService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BudgetItemService],
+      providers: [BudgetService],
       imports: [HttpClientTestingModule]
     });
 
     httpTestingController = TestBed.get(HttpTestingController);
-    service = TestBed.get(BudgetItemService);
+    service = TestBed.get(BudgetService);
   });
 
   afterEach(() => {    
@@ -30,12 +30,12 @@ describe('BudgetItemService', () => {
 
   it('It should call GET with the correcty URL', () => {
 
-    service.getBudgetItemList().subscribe((data: BudgetItem[]) => {
+    service.getBudgetItemList(1).subscribe((data: BudgetItem[]) => {
       //Question: What good is this expect What are you testing?
       expect(data).toEqual(budgetItemList);
     });
 
-    const request: TestRequest = httpTestingController.expectOne(service.getBudgetItemsListUrl);
+    const request: TestRequest = httpTestingController.expectOne(service.getBudgetItemsListUrl + '?id=1');
 
     expect(request.request.method).toEqual('GET');
     request.flush(budgetItemList);   
