@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 export class CategoryListResolver implements Resolve<Category[]> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Category[] | Observable<Category[]> | Promise<Category[]> {
-        return this.categoryService.getCategoryList();
+        const budgetId = +route.paramMap.get('id');
+        return this.categoryService.getCategoryList(budgetId);
     }
 
     constructor(private categoryService: CategoryService) {

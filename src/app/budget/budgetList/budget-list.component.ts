@@ -9,7 +9,7 @@ import { Budget } from '../budget.types';
 })
 export class BudgetListComponent implements OnInit {
 
-  budgetList: Budget[]
+  budgetList: Budget[];
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -17,7 +17,7 @@ export class BudgetListComponent implements OnInit {
     this.activatedRoute.data.subscribe((data) => {
       
       this.budgetList = data.budgetList;
-    })
+    });
   }
 
 }

@@ -23,13 +23,13 @@ export class BudgetService {
 
   getBudgetItemList = (budgetId: number): Observable<BudgetItem[]> => {
 
-    var options = {
+    const options = {
       params: {
         id: budgetId.toString()
       }
-    }
+    };
 
-    let params = new HttpParams();
+    const params = new HttpParams();
     return this.httpClient.get<BudgetItem[]>(this.getBudgetItemsListUrl, options);
   }
 }

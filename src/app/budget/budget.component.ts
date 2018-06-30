@@ -4,8 +4,6 @@ import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
 import { BudgetItem } from './budget.types';
-import { BudgetService } from './budget.service';
-import { NumericInputDirective } from '../directives/numeric-input.directive';
 
 @Component({
   selector: 'app-sum',
@@ -34,8 +32,7 @@ export class BudgetComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void { }
 
   //This is going to be a problem how do you add from the handler in the html. A pass thru?
   addItem = (): void => {

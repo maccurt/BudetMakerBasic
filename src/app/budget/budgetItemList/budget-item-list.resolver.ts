@@ -9,7 +9,7 @@ export class BudgetItemListResolver implements Resolve<BudgetItem[]> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): BudgetItem[] | Observable<BudgetItem[]> | Promise<BudgetItem[]> {
 
-        var id = +route.paramMap.get('id')
+        const id = +route.paramMap.get('id');
         return this.budgetItemService.getBudgetItemList(id);
     }
     constructor(private budgetItemService: BudgetService) { }
