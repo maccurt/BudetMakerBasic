@@ -9,8 +9,8 @@
                     <th>
 
                     </th>
-                    <th>
-                        Amount
+                    <th>                        
+                        Amount                        
                     </th>
                     <th>
                         Description
@@ -34,13 +34,13 @@
                         </div>
                     </td>
                     <td>
-                        <input class='amount' numeric-input [min]="0" [max]="99999" [decimals]="2" type="number" [(ngModel)]="i.amount" (blur)="itemChanged(i)">
+                        <input class='amount' numeric-input [min]="0" [max]="99999" [decimals]="2" type="number" [(ngModel)]="i.amount" (change)="itemChanged(i)">
                     </td>
                     <td>
-                        <input class='description' [(ngModel)]="i.description">
+                        <input class='description' [(ngModel)]="i.description" (change)='updateBudgetItem(i)' >
                     </td>
                     <td>
-                        <select name='order' class="categoryList" [(ngModel)]="i.categoryId" (change)="categoryChanged($event)">
+                        <select name='order' class="categoryList" [(ngModel)]="i.categoryId" (change)="categoryChanged(i)">
                             <option *ngFor="let category of categoryList" [ngValue]="category.id">{{category.name}}</option>
                         </select>
                     </td>

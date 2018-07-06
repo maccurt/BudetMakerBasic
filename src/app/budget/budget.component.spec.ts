@@ -5,18 +5,20 @@ import { By } from '@angular/platform-browser';
 import { DirectivesModule } from '../directives/directives.module';
 import { CategoryService } from '../category/category.service';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import { Category } from '../category/category.type';
-import { BudgetItem } from './budget.types';
+import { BudgetItem, Budget } from './budget.types';
 import { CategoryListComponent } from '../category/category-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { of } from 'rxjs/internal/observable/of';
+import { BudgetService } from './budget.service';
 
 
 describe('BudgetComponent', () => {
   let component: BudgetComponent;
   let fixture: ComponentFixture<BudgetComponent>;
-  const itemToDelete: BudgetItem = { id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
+  const itemToDelete: BudgetItem = { budgetId: 1, id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
   const groceryCategory: Category = { id: 3, name: 'Food' };
+  let budgetService: BudgetService;
 
   beforeEach(async(() => {
 
@@ -30,22 +32,33 @@ describe('BudgetComponent', () => {
       ];
 
     const budgetItemList: BudgetItem[] = [];
-    budgetItemList.push({ id: 1, amount: 100, description: 'Mortgage', categoryId: 7 });
-    budgetItemList.push({ id: 2, amount: 200, description: 'Gas', categoryId: 8 });
-    budgetItemList.push({ id: 3, amount: 100, description: 'Gas For Car', categoryId: 8 });
-    budgetItemList.push({ id: 4, amount: 200, description: 'MUD', categoryId: 8 });
+    budgetItemList.push({ budgetId: 1, id: 1, amount: 100, description: 'Mortgage', categoryId: 7 });
+    budgetItemList.push({ budgetId: 1, id: 2, amount: 200, description: 'Gas', categoryId: 8 });
+    budgetItemList.push({ budgetId: 1, id: 3, amount: 100, description: 'Gas For Car', categoryId: 8 });
+    budgetItemList.push({ budgetId: 1, id: 4, amount: 200, description: 'MUD', categoryId: 8 });
     budgetItemList.push(itemToDelete);
+
+    const budget: Budget = {
+      id: 1,
+      name: 'does not matter',
+      itemList: budgetItemList,
+      defaultCategoryId: 1
+    }
 
     const activateRouteMock = {
       data: of({
         categoryList: categoryList,
-        budgetItemList: budgetItemList
+        budget: budget
       })
     };
 
+
+
     TestBed.configureTestingModule({
       declarations: [BudgetComponent, CategoryListComponent],
-      providers: [CategoryService, { provide: ActivatedRoute, useValue: activateRouteMock }],
+      providers: [CategoryService,
+        { provide: ActivatedRoute, useValue: activateRouteMock },
+      ],
       imports: [FormsModule, DirectivesModule, HttpClientModule]
     })
       .compileComponents();
@@ -55,10 +68,17 @@ describe('BudgetComponent', () => {
     fixture = TestBed.createComponent(BudgetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    budgetService = TestBed.get(BudgetService);
+    spyOn(budgetService, 'deleteBudgetItem').and.returnValue(of({}));
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set the default category id to 1-misc', () => {
+    expect(component.categoryDefault.id).toBe(1)
   });
 
   it('should create', () => {

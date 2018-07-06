@@ -4,6 +4,7 @@ import { Category } from '../category/category.type';
 import { BudgetItem } from './budget.types';
 import { of } from 'rxjs';
 import { CategoryService } from '../category/category.service';
+import { BudgetService } from './budget.service';
 
 //This is a test without all the set up, just newing up the class
 describe('BudgetComponent', () => {
@@ -13,14 +14,31 @@ describe('BudgetComponent', () => {
     { id: 1, name: 'A', total: 0 },
     { id: 2, name: 'B', total: 0 }
   );
+
+  const budgetMock = {
+    id: 1
+  }
+
+  const budgetServiceMock = {
+    addBudgetItem: () => { },
+    updateBudgetItem: () => { }
+  }
   const activateRouteMock = {
-    data: of({ categoryList: categoryList })
+    data: of({
+      budget: budgetMock,
+      categoryList: categoryList
+    })
   };
 
   let component: BudgetComponent;
   beforeEach(() => {
-    component = new BudgetComponent(<any>activateRouteMock, new MathService(), new CategoryService(null));
+    component = new BudgetComponent(<any>activateRouteMock, new MathService(), new CategoryService(null), <any>budgetServiceMock);
     component.categoryDefault = categoryList[0];
+    component.budget = <any>budgetMock;
+    var item = component.getNewBudgetItem();
+    item.id = 99
+    spyOn(budgetServiceMock, 'addBudgetItem').and.returnValue(of(item));
+    spyOn(budgetServiceMock, 'updateBudgetItem').and.returnValue(of({}));
   });
 
   it('add row should add an item to the list', () => {
@@ -33,10 +51,10 @@ describe('BudgetComponent', () => {
     it('it should remove correct  item from list', () => {
 
       const amountList: BudgetItem[] = [];
-      const item: BudgetItem = { id: 1, amount: 4.6 };
+      const item: BudgetItem = { budgetId: 100, id: 1, amount: 4.6 };
       amountList.push(
         item,
-        { id: 2, amount: 9.99 }
+        { budgetId: 101, id: 2, amount: 9.99 }
       );
       component.deleteItemFromList(item, amountList);
       expect(amountList.length).toBe(1);
@@ -69,7 +87,7 @@ describe('BudgetComponent', () => {
         //Here I would be testing that it got called correctly        
         spyOn(component, 'setCategoryPercent');
         spyOn(component, 'setCategoryTotal');
-        component.categoryChanged();
+        component.categoryChanged(<any>{});
         expect(component.setCategoryTotal)
           .toHaveBeenCalledWith(component.categoryList, component.budgetItemList);
         expect(component.setCategoryPercent)
@@ -79,10 +97,10 @@ describe('BudgetComponent', () => {
       it('should set the percent and total correctly', () => {
 
         //Is this test worth it? Does not the unit test of the methods inside test this?
-        component.budgetItemList = [{ id: 1, categoryId: 99, amount: 100 }];
+        component.budgetItemList = [{ budgetId: 1, id: 1, categoryId: 99, amount: 100 }];
         component.categoryList = [{ id: 99, name: 'dummy' }];
         component.total = 200;
-        component.categoryChanged();
+        component.categoryChanged(<any>{});
         expect(component.categoryList[0].percent).toEqual(50);
         expect(component.categoryList[0].total).toEqual(100);
       });
@@ -100,10 +118,10 @@ describe('BudgetComponent', () => {
           { id: 2, name: 'B' }
         );
         amountList.push(
-          { id: 1, amount: 100, categoryId: catList[0].id },
-          { id: 2, amount: 150, categoryId: catList[0].id },
-          { id: 3, amount: 50, categoryId: catList[1].id },
-          { id: 4, amount: 75, categoryId: catList[1].id }
+          { budgetId: 1, id: 1, amount: 100, categoryId: catList[0].id },
+          { budgetId: 1, id: 2, amount: 150, categoryId: catList[0].id },
+          { budgetId: 1, id: 3, amount: 50, categoryId: catList[1].id },
+          { budgetId: 1, id: 4, amount: 75, categoryId: catList[1].id }
         );
 
         component.setCategoryTotal(catList, amountList);
@@ -118,9 +136,9 @@ describe('BudgetComponent', () => {
 
         const amountList: BudgetItem[] = [];
         amountList.push(
-          { id: 1, amount: 100 },
-          { id: 2, amount: 50 },
-          { id: 3, amount: 50 }
+          { budgetId: 1, id: 1, amount: 100 },
+          { budgetId: 1, id: 2, amount: 50 },
+          { budgetId: 1, id: 3, amount: 50 }
         );
         component.setSumItemFields(200, amountList);
         expect(amountList[0].percent).toEqual(50);
@@ -131,8 +149,8 @@ describe('BudgetComponent', () => {
       it('a sum total of 75 and item of 50,25 should return correct.', () => {
         const amountList: BudgetItem[] = [];
         amountList.push(
-          { id: 1, amount: 50 },
-          { id: 2, amount: 25 }
+          { budgetId: 1, id: 1, amount: 50 },
+          { budgetId: 1, id: 2, amount: 25 }
         );
 
         component.setSumItemFields(75, amountList);
