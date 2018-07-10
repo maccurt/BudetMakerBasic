@@ -12,7 +12,7 @@
         {{c.name}}
       </td>
       <td class='category-total'>
-        {{c.total |number}}
+        {{c.total |number :'1.2-2'}}
       </td>
       <td class='category-percent'>
         {{c.percent}}%
@@ -22,7 +22,7 @@
   <tfoot>
     <tr>
       <td></td>
-      <td colspan='2'>
+      <td colspan='2' id='category-grand-total'>
         <h4> {{total| currency}}</h4>
       </td>
 

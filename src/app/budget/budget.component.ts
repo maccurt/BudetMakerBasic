@@ -5,6 +5,7 @@ import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
 import { Budget, BudgetItem } from './budget.types';
 import { BudgetService } from './budget.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-sum',
@@ -21,13 +22,14 @@ export class BudgetComponent implements OnInit, AfterViewInit {
   public categoryDefault: Category;
   total = 0;
   constructor(private activatedRoute: ActivatedRoute, private mathService: MathService,
-    private categoryService: CategoryService, private budgetService: BudgetService) { }
+    private categoryService: CategoryService, private budgetService: BudgetService,private title:Title) { }
 
   ngOnInit() {
 
     this.activatedRoute.data.subscribe((data) => {
 
       this.budget = data['budget'];
+      this.title.setTitle(this.budget.name)
       //TODO QUESTION:Do you want this variable here are do you just want to use
       //budget.items
       this.budgetItemList = this.budget.itemList;
@@ -57,6 +59,10 @@ export class BudgetComponent implements OnInit, AfterViewInit {
     var item = this.getNewBudgetItem();
     this.budgetService.addBudgetItem(item).subscribe((data: BudgetItem) => {
       this.budgetItemList.push(data);
+      //If
+      if (data.amount > 0){
+        this.recalculateTotals();
+      }
     })
   }
 
