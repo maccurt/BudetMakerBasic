@@ -5,7 +5,9 @@ import { Category } from '../category/category.type';
 import { ActivatedRoute } from '@angular/router';
 import { Budget, BudgetItem } from './budget.types';
 import { BudgetService } from './budget.service';
-import {Title} from "@angular/platform-browser";
+import { Title } from "@angular/platform-browser";
+import { MatDialog } from '@angular/material';
+import { CategoryComponent } from '../category/category.component';
 
 @Component({
   selector: 'app-sum',
@@ -22,7 +24,8 @@ export class BudgetComponent implements OnInit, AfterViewInit {
   public categoryDefault: Category;
   total = 0;
   constructor(private activatedRoute: ActivatedRoute, private mathService: MathService,
-    private categoryService: CategoryService, private budgetService: BudgetService,private title:Title) { }
+    private categoryService: CategoryService, private budgetService: BudgetService,
+    private title: Title, private modal: MatDialog) { }
 
   ngOnInit() {
 
@@ -38,7 +41,8 @@ export class BudgetComponent implements OnInit, AfterViewInit {
 
       this.categoryList = this.categoryService.sortCategoryByName(this.categoryList);
       this.categoryDefault = this.getDefaultCategory();
-      this.recalculateTotals()
+      this.recalculateTotals();
+
     });
   }
 
@@ -60,7 +64,7 @@ export class BudgetComponent implements OnInit, AfterViewInit {
     this.budgetService.addBudgetItem(item).subscribe((data: BudgetItem) => {
       this.budgetItemList.push(data);
       //If
-      if (data.amount > 0){
+      if (data.amount > 0) {
         this.recalculateTotals();
       }
     })
@@ -93,7 +97,7 @@ export class BudgetComponent implements OnInit, AfterViewInit {
     this.budgetService.deleteBudgetItem(item.id).subscribe(() => {
       event.stopPropagation();
       this.deleteItemFromList(item, this.budgetItemList);
-      this.recalculateTotals()      
+      this.recalculateTotals()
     })
   }
 
@@ -102,6 +106,22 @@ export class BudgetComponent implements OnInit, AfterViewInit {
     if (index > -1) {
       budgetItemList.splice(index, 1);
     }
+  }
+
+  addCategory = () => {
+    let modalRef = this.modal.open(CategoryComponent, {
+      width: '450px', //How can you not do this
+      data: {
+        budget: this.budget
+      }
+    })
+
+    modalRef.afterClosed().subscribe((categoryList: Category[]) => {      
+      if (categoryList && categoryList.length > 0) {
+        this.categoryList = this.categoryList.concat(categoryList);
+        this.categoryList = this.categoryService.sortCategoryByName(this.categoryList)
+      }
+    })
   }
 
   categoryChanged = (item: BudgetItem) => {

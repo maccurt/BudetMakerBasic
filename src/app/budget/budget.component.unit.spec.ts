@@ -1,10 +1,9 @@
 import { BudgetComponent } from './budget.component';
 import { MathService } from '../shared/math.service';
 import { Category } from '../category/category.type';
-import { BudgetItem } from './budget.types';
-import { of } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
 import { CategoryService } from '../category/category.service';
-import { BudgetService } from './budget.service';
+import { BudgetItem } from './budget.types';
 
 //This is a test without all the set up, just newing up the class
 describe('BudgetComponent', () => {
@@ -30,15 +29,23 @@ describe('BudgetComponent', () => {
     })
   };
 
+  const titleServiceMock = {
+
+  } 
+
   let component: BudgetComponent;
   beforeEach(() => {
-    component = new BudgetComponent(<any>activateRouteMock, new MathService(), new CategoryService(null), <any>budgetServiceMock);
+    component = new BudgetComponent(<any>activateRouteMock,
+      new MathService(),
+      new CategoryService(null),
+      <any>budgetServiceMock, <any> titleServiceMock, <any> titleServiceMock );
+
     component.categoryDefault = categoryList[0];
     component.budget = <any>budgetMock;
     var item = component.getNewBudgetItem();
     item.id = 99
-    spyOn(budgetServiceMock, 'addBudgetItem').and.returnValue(of(item));
-    spyOn(budgetServiceMock, 'updateBudgetItem').and.returnValue(of({}));
+     spyOn(budgetServiceMock, 'addBudgetItem').and.returnValue(of(item));
+     spyOn(budgetServiceMock, 'updateBudgetItem').and.returnValue(of({}));
   });
 
   it('add row should add an item to the list', () => {

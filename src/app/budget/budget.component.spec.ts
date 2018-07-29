@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BudgetComponent } from './budget.component';
-import { By } from '@angular/platform-browser';
+import { By, BrowserModule } from '@angular/platform-browser';
 import { DirectivesModule } from '../directives/directives.module';
 import { CategoryService } from '../category/category.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +11,22 @@ import { CategoryListComponent } from '../category/category-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs/internal/observable/of';
 import { BudgetService } from './budget.service';
+import { MatDialog, MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CategoryComponent } from '../category/category.component';
+import { NgModule } from '@angular/core';
 
+
+//THis is worth learning why you had to do this, it was because of the entry component
+@NgModule({
+  declarations: [CategoryComponent],
+  entryComponents: [
+    CategoryComponent,
+  ],
+  imports: [FormsModule, BrowserModule, MatDialogModule],
+  exports: [FormsModule, MatDialogModule]
+})
+class TestModule { }
 
 describe('BudgetComponent', () => {
   let component: BudgetComponent;
@@ -19,16 +34,21 @@ describe('BudgetComponent', () => {
   const itemToDelete: BudgetItem = { budgetId: 1, id: 7, amount: 500, description: 'Groceries', categoryId: 3 };
   const groceryCategory: Category = { id: 3, name: 'Food' };
   let budgetService: BudgetService;
+  let matDialogModal: MatDialog;
+  let categoryService: CategoryService;
 
   beforeEach(async(() => {
 
     const categoryList: Category[] =
       [
         groceryCategory,
-        { id: 1, name: 'Misc' }, { id: 2, name: 'Entertainment' },
+        { id: 1, name: 'Misc' },
+        { id: 2, name: 'Entertainment' },
         { id: 4, name: 'Energy Utilities' },
-        { id: 5, name: 'Zebra' }, { id: 6, name: 'Apple' },
-        { id: 7, name: 'Housing' }, { id: 8, name: 'Fuel-Gas' }
+        { id: 5, name: 'Zebra' },
+        { id: 6, name: 'Apple' },
+        { id: 7, name: 'Housing' },
+        { id: 8, name: 'Fuel-Gas' }
       ];
 
     const budgetItemList: BudgetItem[] = [];
@@ -52,14 +72,13 @@ describe('BudgetComponent', () => {
       })
     };
 
-
-
     TestBed.configureTestingModule({
       declarations: [BudgetComponent, CategoryListComponent],
-      providers: [CategoryService,
+      providers: [CategoryService, MatDialog,
         { provide: ActivatedRoute, useValue: activateRouteMock },
       ],
-      imports: [FormsModule, DirectivesModule, HttpClientModule]
+      imports: [DirectivesModule, HttpClientModule, BrowserAnimationsModule, TestModule]
+
     })
       .compileComponents();
   }));
@@ -70,6 +89,8 @@ describe('BudgetComponent', () => {
     fixture.detectChanges();
 
     budgetService = TestBed.get(BudgetService);
+    matDialogModal = TestBed.get(MatDialog)
+    categoryService = TestBed.get(CategoryService)
     spyOn(budgetService, 'deleteBudgetItem').and.returnValue(of({}));
   });
 
@@ -115,6 +136,7 @@ describe('BudgetComponent', () => {
       expect(groceryCategory.percent).toEqual(0);
     });
 
+
     it('it should call the delete function with the correct item', () => {
       const deleteLink = fixture.debugElement.query(By.css('#id-7'))
         .nativeElement.querySelector('.delete-item');
@@ -122,6 +144,57 @@ describe('BudgetComponent', () => {
       spyOn(component, 'deleteItem');
       deleteLink.click();
       expect(component.deleteItem).toHaveBeenCalledWith(itemToDelete);
+    });
+
+    describe('click the add category', () => {
+
+      let addCategoryButton: any;
+      beforeEach(() => {
+        addCategoryButton = fixture.nativeElement.querySelector('#add-budget-category');
+        spyOn(categoryService, 'sortCategoryByName').and.callThrough();
+      })
+
+      it('should add the new category and sort the category list', () => {
+
+        const categoryAdded: Category = { id: 999, name: 'AAASortedToTop' };
+        const categoryListAdded = [categoryAdded];
+        const matDialogRefMock = {
+          afterClosed: () => {
+            return of(categoryListAdded);
+          }
+        }
+
+        spyOn(matDialogModal, 'open').and.returnValue(matDialogRefMock);
+        spyOn(matDialogRefMock, 'afterClosed').and.callThrough();
+
+        addCategoryButton.click();
+        expect(matDialogModal.open).toHaveBeenCalled();
+
+        //There was 8 and we added one
+        expect(component.categoryList.length).toEqual(9);
+        //It should have sorted the category and the category we added should be first
+        expect(categoryService.sortCategoryByName).toHaveBeenCalled();
+        expect(component.categoryList[0]).toEqual(categoryAdded);
+      });
+
+      it('it should not add a category and we should not call the sort method', () => {
+
+        const matDialogRefMock = {
+          afterClosed: () => {
+            return of([]); //Return an empty array, we did not add category
+          }
+        }
+
+        spyOn(matDialogModal, 'open').and.returnValue(matDialogRefMock);
+        spyOn(matDialogRefMock, 'afterClosed').and.callThrough();
+
+        addCategoryButton.click();
+
+        //We did not add any categories so it should not add anything 
+        expect(component.categoryList.length).toEqual(8);
+        expect(categoryService.sortCategoryByName).not.toHaveBeenCalled();
+      });
+
     });
 
   });

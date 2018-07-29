@@ -6,10 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,MatDialogModule,BrowserAnimationsModule,
   ],
   declarations: [NumericInputDirective],
   providers: [MathService],
@@ -17,7 +19,10 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule]
+    RouterModule,
+    MatDialogModule
+  ]
 })
 export class SharedModule { }

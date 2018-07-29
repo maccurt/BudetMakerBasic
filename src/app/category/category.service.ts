@@ -8,10 +8,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CategoryService {
   getCategoryListUrl = 'http://localhost/bugetMaker/api/categoryList';
-  constructor(private httpClient: HttpClient) { 
-    
+  constructor(private httpClient: HttpClient) {
+
   }
 
+  addCategoryListToBudget = (categoryList: Category[]): Observable<Category[]> => {
+    return this.httpClient.post<Category[]>(this.getCategoryListUrl + '/addCategoryListToBudget', categoryList);
+  }
 
   getCategoryList = (budgetId: number): Observable<Category[]> => {
     const options = {
@@ -21,6 +24,16 @@ export class CategoryService {
     };
     return this.httpClient.get<Category[]>(this.getCategoryListUrl, options);
   }
+
+  getCategoryListNotInBudget = (budgetId: number): Observable<Category[]> => {
+    const options = {
+      params: {
+        budgetId: budgetId.toString()
+      }
+    };
+    return this.httpClient.get<Category[]>(this.getCategoryListUrl + '/notInBudget', options);
+  }
+
 
   sortCategoryByName = (categoryList: Category[]): Category[] => {
     //I made a chnageS

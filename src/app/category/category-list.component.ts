@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Category } from './category.type';
+import { MatDialog } from '@angular/material/dialog';
+import { CategoryComponent } from './category.component';
 
 @Component({
   selector: 'category-list',
@@ -10,8 +12,20 @@ export class CategoryListComponent implements OnInit {
 
   @Input() categoryList: Category[];
   @Input() total: number;
-  constructor() { }
+  constructor(private modal: MatDialog) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
+
+  addCategory = () => {
+    let modalRef = this.modal.open(CategoryComponent, {
+      width: '450px'
+    })
+
+    modalRef.afterClosed().subscribe((data: any) => {
+      console.log('after close', data);
+    })
+  }
 
 }
